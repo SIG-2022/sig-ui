@@ -9,7 +9,7 @@ import {
   Select,
 } from "@material-ui/core";
 
-import ExTable from "./ExTable";
+import ProjectTable from "./ProjectTable";
 
 const ProductPerformance = () => {
   const [age, setAge] = React.useState("10");
@@ -74,7 +74,7 @@ const ProductPerformance = () => {
             mt: 3,
           }}
         >
-          <ExTable />
+          <ProjectTable />
         </Box>
       </CardContent>
     </Card>

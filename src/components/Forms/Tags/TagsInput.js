@@ -8,10 +8,7 @@ import Downshift from "downshift";
 export default function TagsInput({ ...props }) {
     const { selectedTags, placeholder, tags, ...other } = props;
     const [inputValue, setInputValue] = React.useState("");
-    const [selectedItem, setSelectedItem] = React.useState([]);
-    useEffect(() => {
-        setSelectedItem(tags);
-    }, [tags]);
+    const [selectedItem, setSelectedItem] = React.useState(tags);
     useEffect(() => {
         selectedTags(selectedItem);
     }, [selectedItem, selectedTags]);

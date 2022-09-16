@@ -2,7 +2,7 @@ import React from "react";
 
 import { Card, CardContent, Box, Typography } from "@material-ui/core";
 
-import ExTable from "../dashboards/dashboard1-components/ExTable";
+import ProjectTable from "../dashboards/dashboard1-components/ProjectTable";
 
 const BasicTable = () => {
   return (
@@ -18,7 +18,7 @@ const BasicTable = () => {
               },
             }}
           >
-            <ExTable />
+            <ProjectTable />
           </Box>
         </CardContent>
       </Card>

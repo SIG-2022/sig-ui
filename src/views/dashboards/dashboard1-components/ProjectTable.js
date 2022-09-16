@@ -7,17 +7,19 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Chip,
+    Chip, Grid,
 } from "@material-ui/core";
-import { visuallyHidden } from '@mui/utils';
+import {visuallyHidden} from '@mui/utils';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import API from "../../../api/api";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import CurrencyFormat from "react-currency-format";
+import {useNavigate} from "react-router-dom";
 
-const ExTable = () => {
+const ProjectTable = () => {
     const [projects, setProjects] = useState(undefined);
     const [jwt] = useLocalStorage("jwt", null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getProjects() {
@@ -83,8 +85,8 @@ const ExTable = () => {
 
     const createSortHandler =
         (property) => (event) => {
-        handleRequestSort(event, property);
-    };
+            handleRequestSort(event, property);
+        };
 
     const headCells = [
         {
@@ -164,7 +166,11 @@ const ExTable = () => {
             </TableHead>
             <TableBody>
                 {projects && stableSort(projects, getComparator(order, orderBy)).map((project) => (
-                    <TableRow key={project.id}>
+                    <TableRow
+                        key={project.id}
+                        onClick={() => navigate('/project', {state: project, replace: true})}
+                        style={{cursor: 'pointer'}}
+                    >
                         <TableCell>
                             <Box
                                 sx={{
@@ -208,16 +214,22 @@ const ExTable = () => {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Chip
-                                sx={{
-                                    pl: "4px",
-                                    pr: "4px",
-                                    backgroundColor: project.pbg,
-                                    color: "#fff",
-                                }}
-                                size="small"
-                                label={project.state}
-                            ></Chip>
+                            <Grid container spacing={2} marginTop={'2px'}>
+                                {project.features && project.features.map((feature) => (
+                                    <Chip
+                                        sx={{
+                                            pl: "4px",
+                                            pr: "4px",
+                                            backgroundColor: (theme) =>
+                                                `${theme.palette.primary.main}!important`,
+                                            color: "#fff",
+                                            marginBottom: "4px",
+                                        }}
+                                        size="small"
+                                        label={feature}
+                                    ></Chip>
+                                ))}
+                            </Grid>
                         </TableCell>
                         <TableCell align="right">
                             <Typography variant="h6">
@@ -246,4 +258,4 @@ const ExTable = () => {
     );
 };
 
-export default ExTable;
+export default ProjectTable;

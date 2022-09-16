@@ -15,19 +15,17 @@ import API from "../../../api/api";
 import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import TagsInput from "../../../components/Forms/Tags/TagsInput";
 import CurrencyFormat from 'react-currency-format';
-import {useNavigate} from "react-router-dom";
 
-function FbDefaultForm() {
+function FbDefaultForm(props) {
     const [jwt] = useLocalStorage("jwt", null);
     const [clients, setClients] = useState(undefined);
-    const [name, setName] = useState(undefined);
-    const [selectedClient, setSelectedClient] = useState(undefined);
-    const [industry, setIndustry] = useState(undefined);
-    const [studio, setStudio] = useState(undefined);
-    const [features, setFeatures] = useState(undefined);
-    const [employeeCount, setEmployeeCount] = useState(undefined)
-    const [budget, setBudget] = useState(undefined);
-    const navigate = useNavigate();
+    const [name, setName] = useState(props.state?.name);
+    const [selectedClient, setSelectedClient] = useState(props.state?.client ? {label: props.state?.client, value: props.state?.clientId}: undefined);
+    const [industry, setIndustry] = useState(props.state?.industry);
+    const [studio, setStudio] = useState(props.state?.studio);
+    const [features, setFeatures] = useState(props.state?.features);
+    const [employeeCount, setEmployeeCount] = useState(props.state?.devAmount)
+    const [budget, setBudget] = useState(props.state?.maxBudget);
 
     useEffect(() => {
         async function getClients() {
@@ -102,7 +100,7 @@ function FbDefaultForm() {
     }
 
 
-    async function handleChange(item) {
+    async function handleChange() {
         const body = {
             name: name,
             industry: industry,
@@ -112,21 +110,12 @@ function FbDefaultForm() {
             devAmount: parseInt(employeeCount),
             maxBudget: budget,
             endDate: new Date(),
-        }
-        console.log(body)
+        };
         const headers = {
             Authorization: 'Bearer ' + jwt
         };
-        await API.post(
-            `/project`,
-            body,
-            {headers}
-        ).then(() => {
-            navigate('/projects')
-        }).catch(() => {
-            //TODO add error message
-            console.log('Error')
-        })
+        props.handleFormSubmit(body, headers);
+
     }
 
 
@@ -152,7 +141,7 @@ function FbDefaultForm() {
                                 fontWeight: "500",
                             }}
                         >
-                            Crear Proyecto
+                            {props.formMsg || 'Crear Proyecto'}
                         </Typography>
                     </Box>
                 </Box>
@@ -219,6 +208,7 @@ function FbDefaultForm() {
                         <Grid item mt={2} mb={2}>
                             <TagsInput
                                 selectedTags={(tags) => handleFeaturesChange(tags)}
+                                tags={features || []}
                                 fullWidth
                                 variant="outlined"
                                 id="project-features"
@@ -264,7 +254,7 @@ function FbDefaultForm() {
                                 variant="contained"
                                 onClick={handleChange}
                                 disabled={!name || !selectedClient || !industry || !studio || features.length === 0 || !employeeCount || !budget}>
-                                Crear Proyecto
+                                {props.buttonMsg || 'Crear Proyecto'}
                             </Button>
                         </div>
                     </form>
