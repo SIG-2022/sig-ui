@@ -13,14 +13,18 @@ import {
 import { SidebarWidth } from "../../../assets/global/Theme-variable";
 import LogoIcon from "../Logo/LogoIcon";
 import Menuitems from "./data";
+import {useLocalStorage} from "../../../hooks/useLocalStorage";
+import jwtDecoder from 'jwt-decode'
 
 const Sidebar = (props) => {
   const [open, setOpen] = React.useState(true);
   const { pathname } = useLocation();
   const pathDirect = pathname;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  const [jwt] = useLocalStorage("jwt", null);
 
-  const handleClick = (index) => {
+
+    const handleClick = (index) => {
     if (open === index) {
       setOpen((prevopen) => !prevopen);
     } else {
@@ -44,10 +48,9 @@ const Sidebar = (props) => {
           }}
         >
           {Menuitems.map((item, index) => {
-            //{/********SubHeader**********/}
-
-            return (
-              <List component="li" disablePadding key={item.title}>
+            return item.roles.includes(jwtDecoder(jwt).role) &&
+                (
+                <List component="li" disablePadding key={item.title}>
                 <ListItem
                   onClick={() => handleClick(index)}
                   button

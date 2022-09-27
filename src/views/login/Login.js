@@ -12,6 +12,7 @@ import {useLocalStorage} from "../../hooks/useLocalStorage";
 import API from '../../api/api';
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Grid, Link} from "@material-ui/core";
 
 const theme = createTheme();
 
@@ -35,7 +36,7 @@ export default function Login() {
                 setError(undefined);
                 setJwt(res.data.access_token);
                 setUser(user)
-                navigate('/')
+                navigate('/', {replace: true})
             })
             .catch(err => {
                 setError('Credenciales Invalidas')
@@ -91,8 +92,15 @@ export default function Login() {
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
                         >
-                            Sign In
+                            Ingresar
                         </Button>
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                <Link onClick={() => navigate('/register', {replace: true})}>
+                                    {"No tienes cuenta? Registrarse"}
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Box>
             </Container>

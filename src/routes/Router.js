@@ -3,16 +3,18 @@ import {ProtectedRoute} from "./ProtectedRoute";
 import {Navigate} from "react-router-dom";
 
 
-/****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout/FullLayout.js"));
 const Login = lazy(() => import("../views/login/Login.js"));
-/****End Layouts*****/
+const Register = lazy(() => import("../views/register/Register"));
+const LoadData = lazy(() => import("../views/load-data/LoadData.js"));
 
 /*****Pages******/
 const Dashboard1 = lazy(() => import("../views/dashboards/Dashboard1"));
 
 /*****Tables******/
 const ProjectTable = lazy(() => import("../views/tables/BasicTable"));
+const AdminTable = lazy(() => import("../views/tables/AdminTable"));
+const EmployeeTable = lazy(() => import("../views/tables/EmployeeTable"));
 
 // form elements
 const ExAutoComplete = lazy(() =>
@@ -36,13 +38,20 @@ const ThemeRoutes = [
         element: <Login/>
     },
     {
+        path: "/register",
+        element: <Register/>
+    },
+    {
         path: "/",
         element: <ProtectedRoute><FullLayout/></ProtectedRoute>,
         children: [
             {path: "/", element: <Navigate to="/dashboard"/>},
             {path: "/dashboard", exact: true, element: <Dashboard1/>},
             {path: "/projects", element: <ProjectTable/>},
+            {path: "/users", element: <AdminTable/>},
             {path: "/project", element: <ProjectInfo/>},
+            {path: "/load-data", element: <LoadData/>},
+            {path: "/employees", element: <EmployeeTable/>},
             {path: "/create-project", element: <CreateProject/>},
             {path: "/form-elements/autocomplete", element: <ExAutoComplete/>},
             {path: "/form-elements/button", element: <ExButton/>},
