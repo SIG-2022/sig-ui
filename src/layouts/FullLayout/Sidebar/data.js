@@ -1,11 +1,5 @@
 import {
   DashboardOutlined,
-  AddToPhotosOutlined,
-  AspectRatioOutlined,
-  AssignmentTurnedInOutlined,
-  AlbumOutlined,
-  SwitchCameraOutlined,
-  SwitchLeftOutlined,
   DescriptionOutlined,
   AutoAwesomeMosaicOutlined,
 } from "@material-ui/icons/";
@@ -18,39 +12,9 @@ const Menuitems = [
     roles: ['USER', 'ADMIN'],
   },
   {
-    title: "Autocomplete",
-    icon: AddToPhotosOutlined,
-    href: "/form-elements/autocomplete",
-    roles: ['USER', 'ADMIN'],
-  },
-  {
-    title: "Buttons",
-    icon: AspectRatioOutlined,
-    href: "/form-elements/button",
-    roles: ['USER', 'ADMIN'],
-  },
-  {
-    title: "Checkbox",
-    icon: AssignmentTurnedInOutlined,
-    href: "/form-elements/checkbox",
-    roles: ['USER', 'ADMIN'],
-  },
-  {
-    title: "Radio",
-    icon: AlbumOutlined,
-    href: "/form-elements/radio",
-    roles: ['USER', 'ADMIN'],
-  },
-  {
-    title: "Slider",
-    icon: SwitchCameraOutlined,
-    href: "/form-elements/slider",
-    roles: ['USER', 'ADMIN'],
-  },
-  {
-    title: "Switch",
-    icon: SwitchLeftOutlined,
-    href: "/form-elements/switch",
+    title: "Proyectos",
+    icon: AutoAwesomeMosaicOutlined,
+    href: "/projects",
     roles: ['USER', 'ADMIN'],
   },
   {
@@ -60,9 +24,9 @@ const Menuitems = [
     roles: ['USER', 'ADMIN'],
   },
   {
-    title: "Proyectos",
-    icon: AutoAwesomeMosaicOutlined,
-    href: "/projects",
+    title: "Crear Cliente",
+    icon: DescriptionOutlined,
+    href: "/create-client",
     roles: ['USER', 'ADMIN'],
   },
   {

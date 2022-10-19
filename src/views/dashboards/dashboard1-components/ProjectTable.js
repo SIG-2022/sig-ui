@@ -44,7 +44,6 @@ const ProjectTable = (props) => {
     }, [projects, jwt])
 
     const parseProjects = (data) => {
-        console.log(data)
         setProjects(data.map((project) => ({
             ...project,
             client: project.client.name
@@ -157,6 +156,11 @@ const ProjectTable = (props) => {
             visible: true
         },
         {
+            id: 'startDate',
+            numeric: true,
+            label: 'Fecha Inicio',
+            visible: true
+        },{
             id: 'endDate',
             numeric: true,
             label: 'Fecha Finalización',
@@ -372,6 +376,15 @@ const ProjectTable = (props) => {
                         >
                             <Typography color="textSecondary" variant="h6">
                                 {project.devAmount}
+                            </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          onClick={() => navigate('/project', {state: project, replace: true})}
+                          style={{cursor: 'pointer'}}
+                        >
+                            <Typography color="textSecondary" variant="h6">
+                                {new Date(project.startDate).toISOString()}
                             </Typography>
                         </TableCell>
                         <TableCell

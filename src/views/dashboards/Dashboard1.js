@@ -2,7 +2,6 @@ import React from "react";
 import { Grid, Box } from "@material-ui/core";
 
 import {
-  BlogCard,
   SalesOverview,
   ProductPerformance,
   DailyActivities,
@@ -26,7 +25,6 @@ const Dashboard1 = () => {
           <ProductPerformance />
         </Grid>
         {/* ------------------------- row 3 ------------------------- */}
-        <BlogCard />
       </Grid>
     </Box>
   );

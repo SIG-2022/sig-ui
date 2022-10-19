@@ -72,6 +72,7 @@ const baseTheme = createTheme({
           paddingLeft: "15px !important",
           paddingRight: "15px !important",
           maxWidth: "1600px",
+          boxSizing:'unset',
         },
       },
     },

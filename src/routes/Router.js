@@ -16,18 +16,9 @@ const ProjectTable = lazy(() => import("../views/tables/BasicTable"));
 const AdminTable = lazy(() => import("../views/tables/AdminTable"));
 const EmployeeTable = lazy(() => import("../views/tables/EmployeeTable"));
 
-// form elements
-const ExAutoComplete = lazy(() =>
-    import("../views/FormElements/ExAutoComplete")
-);
-const ExButton = lazy(() => import("../views/FormElements/ExButton"));
-const ExCheckbox = lazy(() => import("../views/FormElements/ExCheckbox"));
-const ExRadio = lazy(() => import("../views/FormElements/ExRadio"));
-const ExSlider = lazy(() => import("../views/FormElements/ExSlider"));
-const ExSwitch = lazy(() => import("../views/FormElements/ExSwitch"));
-
 // form layouts
 const CreateProject = lazy(() => import("../views/FormLayouts/FormLayouts"));
+const CreateClient = lazy(() => import("../views/FormLayouts/CreateClientLayout"));
 const ProjectInfo = lazy(() => import("../views/FormLayouts/ProjectInfo"));
 
 /*****Routes******/
@@ -52,13 +43,8 @@ const ThemeRoutes = [
             {path: "/project", element: <ProjectInfo/>},
             {path: "/load-data", element: <LoadData/>},
             {path: "/employees", element: <EmployeeTable/>},
-            {path: "/create-project", element: <CreateProject/>},
-            {path: "/form-elements/autocomplete", element: <ExAutoComplete/>},
-            {path: "/form-elements/button", element: <ExButton/>},
-            {path: "/form-elements/checkbox", element: <ExCheckbox/>},
-            {path: "/form-elements/radio", element: <ExRadio/>},
-            {path: "/form-elements/slider", element: <ExSlider/>},
-            {path: "/form-elements/switch", element: <ExSwitch/>},
+            {path: "/create-project", element: <CreateProject  style={{boxSizing:'unset'}}/>},
+            {path: "/create-client", element: <CreateClient/>},
         ],
     },
 ];

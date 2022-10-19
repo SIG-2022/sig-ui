@@ -37,7 +37,6 @@ const Sidebar = (props) => {
       <Link to="/">
         <Box sx={{ display: "flex", alignItems: "Center" }}>
           <LogoIcon />
-        {/*    TODO replace LOGO*/}
         </Box>
       </Link>
 
