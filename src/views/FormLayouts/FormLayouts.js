@@ -24,7 +24,7 @@ const FormLayouts = () => {
     return (
         <Grid container spacing={0}>
             <Grid item lg={12} md={12} xs={12}>
-                <FbDefaultForm handleFormSubmit={handleFormSubmit}/>
+                <FbDefaultForm minDate handleFormSubmit={handleFormSubmit}/>
             </Grid>
         </Grid>
     );

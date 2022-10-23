@@ -16,20 +16,24 @@ const BasicTable = () => {
     setStateFilter(undefined)
   }
 
-  function handleStartedProjectsFilter() {
-    setStateFilter('STARTED')
-  }
-
-  function handleDelayedProjectsFilter() {
-    setStateFilter('DELAYED')
-  }
-
   function handleAcceptedProjectsFilter() {
     setStateFilter('ACCEPTED')
   }
 
   function handleTeamAssignmentProjectsFilter() {
     setStateFilter('TEAM_ASSIGNMENT')
+  }
+
+  function handleSentProjectsFilter() {
+    setStateFilter('SENT_TO_CLIENT')
+  }
+
+  function handleTeamAssignedProjectsFilter() {
+    setStateFilter('TEAM_ASSIGNED')
+  }
+
+  function handleRejectedProjectsFilter() {
+    setStateFilter('REJECTED_BY_CLIENT')
   }
 
   function handleCanceledProjectsFilter() {
@@ -66,14 +70,20 @@ const BasicTable = () => {
                 </Grid>
                 <Grid item>
                   <Button
-                    onClick={handleDelayedProjectsFilter}>
-                    Atrasados
+                    onClick={handleTeamAssignedProjectsFilter}>
+                    Equipo Asignado
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
-                    onClick={handleStartedProjectsFilter}>
-                    Empezados
+                    onClick={handleSentProjectsFilter}>
+                    Enviados
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                      onClick={handleRejectedProjectsFilter}>
+                    Rechazados
                   </Button>
                 </Grid>
                 <Grid item>

@@ -55,8 +55,11 @@ const FormLayouts = () => {
             </Grid>
             <Grid item lg={12} md={12} xs={12}>
                 {selection === 'update-project' &&
-                <FbDefaultForm state={state} formMsg={state.name} buttonMsg={'Actualizar Proyecto'}
-                               handleFormSubmit={handleFormSubmit}/>
+                <FbDefaultForm state={state}
+                               formMsg={state.name}
+                               buttonMsg={'Actualizar Proyecto'}
+                               handleFormSubmit={handleFormSubmit}
+                />
                 }
                 {selection === 'team-assign' &&
                     <EmployeeTable employeeSelection project={state} />

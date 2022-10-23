@@ -16,6 +16,9 @@ import {useLocalStorage} from "../../../hooks/useLocalStorage";
 import CurrencyFormat from "react-currency-format";
 import {useNavigate} from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
@@ -160,7 +163,7 @@ const ProjectTable = (props) => {
             numeric: true,
             label: 'Fecha Inicio',
             visible: true
-        },{
+        }, {
             id: 'endDate',
             numeric: true,
             label: 'Fecha Finalización',
@@ -171,16 +174,50 @@ const ProjectTable = (props) => {
             numeric: false,
             label: '',
             visible: false
-        },
+        }
     ];
+    const shouldDisplaySend = !props.stateFilter || props.stateFilter === 'TEAM_ASSIGNED' || props.stateFilter === 'REJECTED_BY_CLIENT'
+    if (shouldDisplaySend) {
+        headCells.push(
+            {
+                id: 'empty3',
+                numeric: false,
+                label: '',
+                visible: false
+            }
+        );
+    }
+    const shouldDisplayClientReject = !props.stateFilter || props.stateFilter === 'SENT_TO_CLIENT'
+    if (shouldDisplayClientReject) {
+        headCells.push(
+            {
+                id: 'empty4',
+                numeric: false,
+                label: '',
+                visible: false
+            }
+        );
+    }
+
+    const shouldDisplayClientAccept = !props.stateFilter || props.stateFilter === 'SENT_TO_CLIENT'
+    if (shouldDisplayClientAccept) {
+        headCells.push(
+            {
+                id: 'empty5',
+                numeric: false,
+                label: '',
+                visible: false
+            }
+        );
+    }
 
     function handleProjectDelete(project) {
         const headers = {
             Authorization: 'Bearer ' + jwt
         };
         API.delete(
-          `/project/${project.id}`,
-          {headers}
+            `/project/${project.id}`,
+            {headers}
         );
         setProjects(projects.map(proj => {
             if (proj.id === project.id) {
@@ -191,8 +228,25 @@ const ProjectTable = (props) => {
         }));
     }
 
-    const CustomWidthTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
+    async function handleProjectChange(project, url) {
+        const headers = {
+            Authorization: 'Bearer ' + jwt
+        };
+        const res = await API.post('/project/' + url + '/' + project.id,
+            undefined, {headers}
+        );
+
+        setProjects(projects.map(proj => {
+            if (proj.id === project.id) {
+                return {...proj, state: res.data.state};
+            }
+
+            return proj;
+        }));
+    }
+
+    const CustomWidthTooltip = styled(({className, ...props}) => (
+        <Tooltip {...props} classes={{popper: className}}/>
     ))({
         [`& .${tooltipClasses.tooltip}`]: {
             maxWidth: 200,
@@ -200,33 +254,51 @@ const ProjectTable = (props) => {
     });
 
     function getProjectIcon(project) {
-        if (project.state !== 'STARTED'){
+        if (project.state !== 'STARTED') {
             switch (project.state) {
                 case 'TEAM_ASSIGNMENT':
                     return <CustomWidthTooltip title='Equipo no asignado'>
                         <PeopleAltIcon
                             sx={{
                                 fontSize: '25px',
-                                color: '#58aeec',
+                                color: '#f57d1a',
+                            }}/>
+                    </CustomWidthTooltip>;
+                case 'TEAM_ASSIGNED':
+                    return <CustomWidthTooltip title='Equipo asignado'>
+                        <PeopleAltIcon
+                            sx={{
+                                fontSize: '25px',
+                                color: 'rgba(74,182,92,0.93)',
                             }}/>
                     </CustomWidthTooltip>;
 
                 case 'ACCEPTED':
                     return <CustomWidthTooltip title='Proyecto aceptado por el cliente'>
-                    <CheckCircleIcon
-                        sx={{
-                            fontSize: '25px',
-                            color: 'rgba(74,182,92,0.93)',
-                        }}/>
+                        <CheckCircleIcon
+                            sx={{
+                                fontSize: '25px',
+                                color: 'rgba(74,182,92,0.93)',
+                            }}/>
                     </CustomWidthTooltip>;
 
-                case 'DELAYED':
-                    return <CustomWidthTooltip title='Proyecto atrasado, algún miembro del equipo no se encuentra disponible'>
-                    <InfoIcon
-                        sx={{
-                            fontSize: '25px',
-                            color: '#e5503f',
-                        }}/>
+                case 'SENT_TO_CLIENT':
+                    return <CustomWidthTooltip
+                        title='Presupuesto enviado al cliente'>
+                        <SendIcon
+                            sx={{
+                                fontSize: '25px',
+                                color: '#58aeec',
+                            }}/>
+                    </CustomWidthTooltip>;
+                case 'REJECTED_BY_CLIENT':
+                    return <CustomWidthTooltip
+                        title='Presupuesto rechazado por el cliente'>
+                        <CancelScheduleSendIcon
+                            sx={{
+                                fontSize: '25px',
+                                color: '#f57d1a',
+                            }}/>
                     </CustomWidthTooltip>;
 
                 default:
@@ -242,6 +314,7 @@ const ProjectTable = (props) => {
                 mt: 3,
                 whiteSpace: "nowrap",
             }}
+            style={{whiteSpace: 'break-spaces'}}
         >
             <TableHead>
                 <TableRow key={'header'}>
@@ -274,141 +347,188 @@ const ProjectTable = (props) => {
                     .filter(filterProjectSearch)
                     .filter(filterProjectState)
                     .map((project) => (
-                    <TableRow
-                        key={project.id}
-                    >
-                        <TableCell>
-                            {getProjectIcon(project)}
-                        </TableCell>
-                        <TableCell
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
+                        <TableRow
+                            key={project.id}
                         >
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Box>
-                                    <Typography
-                                        variant="h6"
-                                        sx={{
-                                            fontWeight: "600",
-                                        }}
-                                    >
-                                        {project.name}
-                                    </Typography>
-                                    <Typography
-                                        color="textSecondary"
-                                        sx={{
-                                            fontSize: "13px",
-                                        }}
-                                    >
-                                        {project.post}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </TableCell>
-                        <TableCell
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {project.client}
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {project.industry}
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {project.studio}
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Grid container spacing={2} marginTop={'2px'}>
-                                {project.features && project.features.map((feature) => (
-                                    <Chip
-                                        sx={{
-                                            pl: "4px",
-                                            pr: "4px",
-                                            backgroundColor: (theme) =>
-                                                `${theme.palette.primary.main}!important`,
-                                            color: "#fff",
-                                            marginBottom: "4px",
-                                        }}
-                                        size="small"
-                                        label={feature}
-                                    ></Chip>
-                                ))}
-                            </Grid>
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography variant="h6">
-                                <CurrencyFormat
-                                    thousandSeparator={true}
-                                    prefix={'$'}
-                                    displayType={'text'}
-                                    value={project.maxBudget}
-                                />
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {project.devAmount}
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {new Date(project.startDate).toISOString()}
-                            </Typography>
-                        </TableCell>
-                        <TableCell
-                          align="right"
-                          onClick={() => navigate('/project', {state: project, replace: true})}
-                          style={{cursor: 'pointer'}}
-                        >
-                            <Typography color="textSecondary" variant="h6">
-                                {new Date(project.endDate).toISOString()}
-                            </Typography>
-                        </TableCell>
-                        <TableCell>
-                            {project.state !== 'CANCELLED' &&
-                            <CloseIcon
-                                sx={{
-                                    color: '#f5301a',
-                                }}
+                            <TableCell>
+                                {getProjectIcon(project)}
+                            </TableCell>
+                            <TableCell
+                                onClick={() => navigate('/project', {state: project, replace: true})}
                                 style={{cursor: 'pointer'}}
-                                onClick={() => handleProjectDelete(project)}
-                            />
+                            >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <Box>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{
+                                                fontWeight: "600",
+                                            }}
+                                        >
+                                            {project.name}
+                                        </Typography>
+                                        <Typography
+                                            color="textSecondary"
+                                            sx={{
+                                                fontSize: "13px",
+                                            }}
+                                        >
+                                            {project.post}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </TableCell>
+                            <TableCell
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {project.client}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {project.industry}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {project.studio}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Grid container spacing={2} marginTop={'2px'}>
+                                    {project.features && project.features.map((feature) => (
+                                        <Chip
+                                            sx={{
+                                                pl: "4px",
+                                                pr: "4px",
+                                                backgroundColor: (theme) =>
+                                                    `${theme.palette.primary.main}!important`,
+                                                color: "#fff",
+                                                marginBottom: "4px",
+                                            }}
+                                            size="small"
+                                            label={feature}
+                                        ></Chip>
+                                    ))}
+                                </Grid>
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography variant="h6">
+                                    <CurrencyFormat
+                                        thousandSeparator={true}
+                                        prefix={'$'}
+                                        displayType={'text'}
+                                        value={project.maxBudget}
+                                    />
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {project.devAmount}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {new Date(project.startDate).toLocaleDateString()}
+                                </Typography>
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                onClick={() => navigate('/project', {state: project, replace: true})}
+                                style={{cursor: 'pointer'}}
+                            >
+                                <Typography color="textSecondary" variant="h6">
+                                    {new Date(project.endDate).toLocaleDateString()}
+                                </Typography>
+                            </TableCell>
+                            {shouldDisplaySend &&
+                                <TableCell>
+                                    {(project.state === 'TEAM_ASSIGNED' || project.state === 'REJECTED_BY_CLIENT') &&
+                                    <CustomWidthTooltip title='Enviar presupuesto'>
+                                        <SendIcon
+                                            sx={{
+                                                color: '#58aeec',
+                                            }}
+                                            style={{cursor: 'pointer'}}
+                                            onClick={() => handleProjectChange(project, 'send')}
+                                        />
+                                    </CustomWidthTooltip>
+                                    }
+                                </TableCell>
                             }
-                        </TableCell>
-                    </TableRow>
-                ))}
+                            {shouldDisplayClientReject &&
+                            <TableCell>
+                                {project.state === 'SENT_TO_CLIENT' &&
+                                <CustomWidthTooltip title='Presupuesto rechazado'>
+                                    <CancelScheduleSendIcon
+                                        sx={{
+                                            color: '#f57d1a',
+                                        }}
+                                        style={{cursor: 'pointer'}}
+                                        onClick={() => handleProjectChange(project, 'reject')}
+                                    />
+                                </CustomWidthTooltip>
+                                }
+                            </TableCell>
+                            }
+                            {shouldDisplayClientAccept &&
+                            <TableCell>
+                                {project.state === 'SENT_TO_CLIENT' &&
+                                <CustomWidthTooltip title='Presupuesto aceptado'>
+                                    <DoneOutlineIcon
+                                        sx={{
+                                            color: 'rgba(74,182,92,0.93)',
+                                        }}
+                                        style={{cursor: 'pointer'}}
+                                        onClick={() => handleProjectChange(project, 'accept')}
+                                    />
+                                </CustomWidthTooltip>
+                                }
+                            </TableCell>
+                            }
+                            <TableCell>
+                                {project.state !== 'CANCELLED' &&
+                                <CustomWidthTooltip title='Cancelar Proyecto'>
+                                    <CloseIcon
+                                        sx={{
+                                            color: '#f5301a',
+                                        }}
+                                        style={{cursor: 'pointer'}}
+                                        onClick={() => handleProjectDelete(project)}
+                                    />
+                                </CustomWidthTooltip>
+                                }
+                            </TableCell>
+                        </TableRow>
+                    ))}
             </TableBody>
         </Table>
     );

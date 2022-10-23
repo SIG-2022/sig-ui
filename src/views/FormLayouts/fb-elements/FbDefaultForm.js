@@ -293,7 +293,7 @@ function FbDefaultForm(props) {
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DesktopDatePicker
                                         label="Fecha Inicio"
-                                        minDate={dayjs()}
+                                        minDate={props.minDate ? dayjs() : dayjs().subtract(1, 'year')}
                                         inputFormat="DD/MM/YYYY"
                                         value={startDate}
                                         onChange={handleStartDateChange}

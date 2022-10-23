@@ -485,7 +485,7 @@ const EmployeeTable = (props) => {
                                                 </TableCell>}
                                                 <TableCell align="right">
                                                     <Typography color="textSecondary" variant="h6">
-                                                        {new Date(employee.employee.availableDate).toISOString()}
+                                                        {new Date(employee.employee.availableDate).toLocaleDateString()}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="right">
