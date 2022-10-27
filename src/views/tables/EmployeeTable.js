@@ -40,11 +40,15 @@ const EmployeeTable = (props) => {
                 `/project/pm`,
                 {headers}
             );
+            if (props.project) {
+                response.data?.unshift(props.project.pm);
+            }
             await setEmployees(response.data);
         }
 
         if (!employees) {
             getPMs();
+
         }
     }, [employees, jwt])
 
@@ -56,6 +60,14 @@ const EmployeeTable = (props) => {
             `/project/${type}`,
             {headers}
         );
+        if (props.project) {
+            if (type === 'pm')
+                response.data?.unshift(props.project.pm);
+            if (type === 'dev')
+                props.project.devs.forEach((dev) => response.data?.unshift(dev))
+            if (type === 'under-selection')
+                props.project.underSelection.forEach((sel) => response.data?.unshift(sel))
+        }
         await setEmployees(response.data);
     }
 
@@ -505,15 +517,17 @@ const EmployeeTable = (props) => {
                                 </TableBody>
                             </Table>
                         </div>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={handleChange}
-                            disabled={ selectedEmployees.length === 0 && !selectedPM }
-                            style={{marginTop: 20}}
-                        >
-                            Asignar Equipo
-                        </Button>
+                        {props.project &&
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={handleChange}
+                                disabled={selectedEmployees.length === 0 && !selectedPM}
+                                style={{marginTop: 20}}
+                            >
+                                Asignar Equipo
+                            </Button>
+                        }
                     </Box>
                 </CardContent>
             </Card>
