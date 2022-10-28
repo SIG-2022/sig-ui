@@ -40,7 +40,7 @@ const EmployeeTable = (props) => {
                 `/project/pm`,
                 {headers}
             );
-            if (props.project) {
+            if (props.project?.pm) {
                 response.data?.unshift(props.project.pm);
             }
             await setEmployees(response.data);
@@ -61,11 +61,11 @@ const EmployeeTable = (props) => {
             {headers}
         );
         if (props.project) {
-            if (type === 'pm')
+            if (type === 'pm' && props.project.pm)
                 response.data?.unshift(props.project.pm);
-            if (type === 'dev')
+            if (type === 'dev' && props.project.devs)
                 props.project.devs.forEach((dev) => response.data?.unshift(dev))
-            if (type === 'under-selection')
+            if (type === 'under-selection' && props.project.underSelection)
                 props.project.underSelection.forEach((sel) => response.data?.unshift(sel))
         }
         await setEmployees(response.data);
