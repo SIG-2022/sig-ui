@@ -86,7 +86,7 @@ const DailyActivities = () => {
               }}
               gutterBottom
             >
-              Daily Activities
+              Indicador 2
             </Typography>
             <Typography
               color="textSecondary"
@@ -96,7 +96,7 @@ const DailyActivities = () => {
                 fontSize: "13px",
               }}
             >
-              Overview of Years
+              Descripción
             </Typography>
           </Box>
           <Box

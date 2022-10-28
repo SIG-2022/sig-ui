@@ -131,7 +131,7 @@ const SalesOverview = () => {
               }}
               gutterBottom
             >
-              Sales Overview
+              Indicador 1
             </Typography>
           </Box>
           <Box

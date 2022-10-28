@@ -37,7 +37,7 @@ const ProductPerformance = () => {
               }}
               gutterBottom
             >
-              Product Performance
+              Proyectos
             </Typography>
           </Box>
 
