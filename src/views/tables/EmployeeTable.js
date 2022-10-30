@@ -10,7 +10,7 @@ import {
     Button,
     TableHead,
     TableRow,
-    TableCell, TableBody, Chip, Table
+    TableCell, TableBody, Chip, Table, Tooltip, tooltipClasses
 } from "@material-ui/core";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import {visuallyHidden} from "@mui/utils";
@@ -19,6 +19,8 @@ import {useLocalStorage} from "../../hooks/useLocalStorage";
 import API from "../../api/api";
 import Checkbox from '@mui/material/Checkbox';
 import {useNavigate} from "react-router-dom";
+import InfoIcon from '@mui/icons-material/Info';
+import {styled} from "@material-ui/styles";
 
 const EmployeeTable = (props) => {
     const [filter, setFilter] = useState(undefined);
@@ -147,6 +149,12 @@ const EmployeeTable = (props) => {
 
     const headCells = [
         {
+            id: 'alert',
+            numeric: false,
+            label: 'alert',
+            visible: false
+        },
+        {
             id: 'id',
             numeric: false,
             label: 'id',
@@ -266,6 +274,14 @@ const EmployeeTable = (props) => {
                 console.log('error', err)
             })
     }
+
+    const CustomWidthTooltip = styled(({className, ...props}) => (
+        <Tooltip {...props} classes={{popper: className}}/>
+    ))({
+        [`& .${tooltipClasses.tooltip}`]: {
+            maxWidth: 200,
+        },
+    });
 
     return (
         <Box>
@@ -406,6 +422,18 @@ const EmployeeTable = (props) => {
                                                         disabled={employeeType === 'PM' ? (selectedPM && selectedPM?.id !== employee.id) : selectedEmployees.length === props.project.devAmount && !selectedEmployees.filter(e => e.id === employee.id).length > 0}
                                                         onChange={(e) => handleCheckbox(e, employee)}/>
                                                 </TableCell>}
+                                                <TableCell>
+                                                    {(new Date(employee.employee.availableDate) > new Date()) &&
+                                                    <CustomWidthTooltip
+                                                        title={'Empleado no disponible hasta el ' + new Date(employee.employee.availableDate).toLocaleDateString()}>
+                                                        <InfoIcon
+                                                            sx={{
+                                                                fontSize: '25px',
+                                                                color: '#f57d1a',
+                                                            }}/>
+                                                    </CustomWidthTooltip>
+                                                    }
+                                                </TableCell>
                                                 <TableCell>
                                                     <Typography color="textSecondary" variant="h6">
                                                         {employee.employee.id}

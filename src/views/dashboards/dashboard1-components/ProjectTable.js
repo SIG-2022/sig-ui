@@ -254,6 +254,15 @@ const ProjectTable = (props) => {
     });
 
     function getProjectIcon(project) {
+        if (project.delay?.delay){
+            return <CustomWidthTooltip title={'Selección atrasada. Fecha disponible: ' + new Date(project.delay.day).toLocaleDateString()}>
+                <PeopleAltIcon
+                    sx={{
+                        fontSize: '25px',
+                        color: '#f5301a',
+                    }}/>
+            </CustomWidthTooltip>;
+        }
         if (project.state !== 'STARTED') {
             switch (project.state) {
                 case 'TEAM_ASSIGNMENT':
@@ -472,13 +481,13 @@ const ProjectTable = (props) => {
                             {shouldDisplaySend &&
                                 <TableCell>
                                     {(project.state === 'TEAM_ASSIGNED' || project.state === 'REJECTED_BY_CLIENT') &&
-                                    <CustomWidthTooltip title='Enviar presupuesto'>
+                                    <CustomWidthTooltip title={project.delay?.delay ? 'Resolver asignación de equipo antes de enviar' : 'Enviar presupuesto'}>
                                         <SendIcon
                                             sx={{
-                                                color: '#58aeec',
+                                                color: project.delay?.delay ? '#B8BABEFF' : '#58aeec',
                                             }}
                                             style={{cursor: 'pointer'}}
-                                            onClick={() => handleProjectChange(project, 'send')}
+                                            onClick={() => project.delay?.delay ? undefined : handleProjectChange(project, 'send')}
                                         />
                                     </CustomWidthTooltip>
                                     }
