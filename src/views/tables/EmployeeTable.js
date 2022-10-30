@@ -194,7 +194,7 @@ const EmployeeTable = (props) => {
 
     const name = employeeType === 'PM' ? 'Características' : 'Tecnologías';
 
-    headCells.splice(4, 0, {
+    headCells.splice(5, 0, {
         id: 'features',
         numeric: false,
         label: name,
