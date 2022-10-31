@@ -8,20 +8,16 @@ const Login = lazy(() => import("../views/login/Login.js"));
 const Register = lazy(() => import("../views/register/Register"));
 const LoadData = lazy(() => import("../views/load-data/LoadData.js"));
 
-/*****Pages******/
-const Dashboard1 = lazy(() => import("../views/dashboards/Dashboard1"));
+const Dashboard = lazy(() => import("../views/dashboards/Dashboard"));
 
-/*****Tables******/
 const ProjectTable = lazy(() => import("../views/tables/BasicTable"));
 const AdminTable = lazy(() => import("../views/tables/AdminTable"));
 const EmployeeTable = lazy(() => import("../views/tables/EmployeeTable"));
 
-// form layouts
 const CreateProject = lazy(() => import("../views/FormLayouts/FormLayouts"));
 const CreateClient = lazy(() => import("../views/FormLayouts/CreateClientLayout"));
 const ProjectInfo = lazy(() => import("../views/FormLayouts/ProjectInfo"));
 
-/*****Routes******/
 
 const ThemeRoutes = [
     {
@@ -37,7 +33,7 @@ const ThemeRoutes = [
         element: <ProtectedRoute><FullLayout/></ProtectedRoute>,
         children: [
             {path: "/", element: <Navigate to="/dashboard"/>},
-            {path: "/dashboard", exact: true, element: <Dashboard1/>},
+            {path: "/dashboard", exact: true, element: <Dashboard/>},
             {path: "/projects", element: <ProjectTable/>},
             {path: "/users", element: <AdminTable/>},
             {path: "/project", element: <ProjectInfo/>},

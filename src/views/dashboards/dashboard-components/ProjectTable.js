@@ -323,6 +323,7 @@ const ProjectTable = (props) => {
                 mt: 3,
                 whiteSpace: "nowrap",
             }}
+            stickyHeader
             style={{whiteSpace: 'break-spaces'}}
         >
             <TableHead>

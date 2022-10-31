@@ -13,11 +13,10 @@ import {
   MenuItem,
   Button,
   Avatar,
-  Divider,
   ListItemIcon,
 } from "@material-ui/core";
 
-import userimg from "../../../assets/images/users/user.jpg";
+import userimg from "../../../assets/images/users/3.jpg";
 import {useNavigate} from "react-router-dom";
 
 const Header = (props) => {
@@ -51,16 +50,6 @@ const Header = (props) => {
           <MenuOutlinedIcon width="20" height="20" />
         </IconButton>
         <Box flexGrow={1} />
-
-        {/* ------------------------------------------- */}
-        {/* Notifications Dropdown */}
-        {/* ------------------------------------------- */}
-        {/* ------------------------------------------- */}
-        {/* End Notifications Dropdown */}
-        {/* ------------------------------------------- */}
-        {/* ------------------------------------------- */}
-        {/* Profile Dropdown */}
-        {/* ------------------------------------------- */}
         <Button
           aria-label="menu"
           color="inherit"
@@ -100,28 +89,6 @@ const Header = (props) => {
             },
           }}
         >
-          <MenuItem onClick={handleClose4}>
-            <Avatar
-              sx={{
-                width: "35px",
-                height: "35px",
-              }}
-            />
-            <Box
-              sx={{
-                ml: 2,
-              }}
-            >
-              My account
-            </Box>
-          </MenuItem>
-          <Divider />
-          <MenuItem onClick={handleClose4}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
           <MenuItem onClick={() => {
               localStorage.removeItem('jwt')
               localStorage.removeItem('user')

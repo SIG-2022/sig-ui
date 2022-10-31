@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import {Card, CardContent, Box, Typography, TextField, Grid, Button} from "@material-ui/core";
 
-import ProjectTable from "../dashboards/dashboard1-components/ProjectTable";
+import ProjectTable from "../dashboards/dashboard-components/ProjectTable";
 
 const BasicTable = () => {
   const [filter, setFilter] = useState(undefined);
