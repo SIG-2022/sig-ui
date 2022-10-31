@@ -59,16 +59,16 @@ const Indicators = (props) => {
         }
     }
 
-    const IDPMIndicator = getIndicatorValues(indicators?.IDPM, 5, 'desc', 'Tiempo promedio de espera a PM (IDPM)', 'dias');
-    const APIndicator = getIndicatorValues(indicators?.AP, 85, 'asc', 'Porcentaje de aceptación de presupuesto (AP)', '%');
-    const APPIIndicator = getIndicatorValues(indicators?.APPI, 85, 'asc', 'Porcentaje de aceptación de presupuesto en primera instancia (APPI)', '%');
-    const MPPIndicator = getIndicatorValues(indicators?.MPP, 55, 'asc', 'Margen neto promedio de proyectos (MPP)', '%');
-    const IDNEIndicator = getIndicatorValues(indicators?.IDNE, 15, 'desc', 'Tiempo promedio de contratación de nuevos empleados (IDNE)', 'dias');
-    const REPMIndicator = getIndicatorValues(indicators?.REPM, 7, 'desc', 'Porcentaje de Rechazo a esperar a PM (REPM)', '%');
-    const IDEIndicator = getIndicatorValues(indicators?.IDE, 7, 'desc', 'Tiempo de espera para conformación de equipo. (IDE)', 'dias');
+    const IDPMIndicator = getIndicatorValues(indicators?.IDPM || 0, 5, 'desc', 'Tiempo promedio de espera a PM (IDPM)', 'dias');
+    const APIndicator = getIndicatorValues(indicators?.AP || 0, 85, 'asc', 'Porcentaje de aceptación de presupuesto (AP)', '%');
+    const APPIIndicator = getIndicatorValues(indicators?.APPI || 0, 85, 'asc', 'Porcentaje de aceptación de presupuesto en primera instancia (APPI)', '%');
+    const MPPIndicator = getIndicatorValues(indicators?.MPP || 0, 55, 'asc', 'Margen neto promedio de proyectos (MPP)', '%');
+    const IDNEIndicator = getIndicatorValues(indicators?.IDNE || 0, 15, 'desc', 'Tiempo promedio de contratación de nuevos empleados (IDNE)', 'dias');
+    const REPMIndicator = getIndicatorValues(indicators?.REPM || 0, 7, 'desc', 'Porcentaje de Rechazo a esperar a PM (REPM)', '%');
+    const IDEIndicator = getIndicatorValues(indicators?.IDE || 0, 7, 'desc', 'Tiempo de espera para conformación de equipo. (IDE)', 'dias');
 
-    const ICNIndicator = getIndicatorValues(indicators?.ICN, 25, 'asc', 'Índice de clientes nuevos (ICN)', '%');
-    const IRIndicator = getIndicatorValues(indicators?.IR, 70, 'asc', 'Índice de recontratación (IR)', '%');
+    const ICNIndicator = getIndicatorValues(indicators?.ICN || 0, 25, 'asc', 'Índice de clientes nuevos (ICN)', '%');
+    const IRIndicator = getIndicatorValues(indicators?.IR || 0, 70, 'asc', 'Índice de recontratación (IR)', '%');
 
     const monthlyIndicators = props?.monthly ?
         [IDPMIndicator, APIndicator, APPIIndicator, MPPIndicator, IDNEIndicator, REPMIndicator, IDEIndicator] :
