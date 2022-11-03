@@ -190,7 +190,8 @@ const AdminTable = () => {
                 setPasswordError(undefined);
                 setConfirmPasswordError(undefined);
                 setEmailError(undefined);
-                navigate('/users', {replace: true})
+                navigate('/users', {replace: true});
+                setOpen(false);
             })
             .catch(() => {
                 setEmailError('Email en uso!')
