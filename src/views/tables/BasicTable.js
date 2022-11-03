@@ -58,42 +58,49 @@ const BasicTable = () => {
                     alignItems="center">
                 <Grid item>
                   <Button
-                    onClick={handleAllProjectFilter}>
+                      variant={stateFilter || 'contained'}
+                      onClick={handleAllProjectFilter}>
                     Todos los projectos
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
+                    variant={stateFilter === 'TEAM_ASSIGNMENT' && 'contained'}
                     onClick={handleTeamAssignmentProjectsFilter}>
                     Equipo a Asignar
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
+                    variant={stateFilter === 'TEAM_ASSIGNED' && 'contained'}
                     onClick={handleTeamAssignedProjectsFilter}>
                     Equipo Asignado
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
+                    variant={stateFilter === 'SENT_TO_CLIENT' && 'contained'}
                     onClick={handleSentProjectsFilter}>
                     Enviados
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
-                      onClick={handleRejectedProjectsFilter}>
+                    variant={stateFilter === 'REJECTED_BY_CLIENT' && 'contained'}
+                    onClick={handleRejectedProjectsFilter}>
                     Rechazados
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
+                    variant={stateFilter === 'ACCEPTED' && 'contained'}
                     onClick={handleAcceptedProjectsFilter}>
                     Aceptados
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
+                    variant={stateFilter === 'CANCELLED' && 'contained'}
                     onClick={handleCanceledProjectsFilter}>
                     Cancelados
                   </Button>
