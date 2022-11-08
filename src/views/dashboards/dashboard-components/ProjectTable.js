@@ -21,7 +21,7 @@ import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import InfoIcon from '@mui/icons-material/Info';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import {styled} from "@material-ui/styles";
 
 const ProjectTable = (props) => {
@@ -311,9 +311,28 @@ const ProjectTable = (props) => {
                     </CustomWidthTooltip>;
 
                 default:
-                    return '';
+                    return <CustomWidthTooltip title='Proyecto cancelado'>
+                        <CancelRoundedIcon
+                            sx={{
+                                fontSize: '25px',
+                                color: '#f5301a',
+                            }}/>
+                    </CustomWidthTooltip>;
             }
         }
+    }
+
+    function handleRowClick(project) {
+        const editableStates = ['TEAM_ASSIGNED', 'TEAM_ASSIGNMENT', 'SENT_TO_CLIENT', 'REJECTED_BY_CLIENT']
+        if (editableStates.includes(project.state))
+            return navigate('/project', {state: project, replace: true});
+    }
+
+    function handleRowCursor(project) {
+        const editableStates = ['TEAM_ASSIGNED', 'TEAM_ASSIGNMENT', 'SENT_TO_CLIENT', 'REJECTED_BY_CLIENT']
+        if (editableStates.includes(project.state))
+            return {cursor: 'pointer'};
+        return {};
     }
 
     return (
@@ -364,8 +383,8 @@ const ProjectTable = (props) => {
                                 {getProjectIcon(project)}
                             </TableCell>
                             <TableCell
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Box
                                     sx={{
@@ -394,32 +413,32 @@ const ProjectTable = (props) => {
                                 </Box>
                             </TableCell>
                             <TableCell
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {project.client}
                                 </Typography>
                             </TableCell>
                             <TableCell
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {project.industry}
                                 </Typography>
                             </TableCell>
                             <TableCell
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {project.studio}
                                 </Typography>
                             </TableCell>
                             <TableCell
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Grid container spacing={2} marginTop={'2px'}>
                                     {project.features && project.features.map((feature) => (
@@ -440,8 +459,8 @@ const ProjectTable = (props) => {
                             </TableCell>
                             <TableCell
                                 align="right"
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography variant="h6">
                                     <CurrencyFormat
@@ -454,8 +473,8 @@ const ProjectTable = (props) => {
                             </TableCell>
                             <TableCell
                                 align="right"
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {project.devAmount}
@@ -463,8 +482,8 @@ const ProjectTable = (props) => {
                             </TableCell>
                             <TableCell
                                 align="right"
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {new Date(project.startDate).toLocaleDateString()}
@@ -472,8 +491,8 @@ const ProjectTable = (props) => {
                             </TableCell>
                             <TableCell
                                 align="right"
-                                onClick={() => navigate('/project', {state: project, replace: true})}
-                                style={{cursor: 'pointer'}}
+                                onClick={() => handleRowClick(project)}
+                                style={handleRowCursor(project)}
                             >
                                 <Typography color="textSecondary" variant="h6">
                                     {new Date(project.endDate).toLocaleDateString()}
