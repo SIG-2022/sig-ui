@@ -99,6 +99,8 @@ const EmployeeTable = (props) => {
         if (orderSplit.length > 1) {
             aProp = a[orderSplit[0]] ? a[orderSplit[0]][orderSplit[1]] : undefined;
             bProp = b[orderSplit[0]] ? b[orderSplit[0]][orderSplit[1]] : undefined;
+            console.log(aProp)
+            console.log(bProp)
         }
         if (bProp < aProp) {
             return -1;
