@@ -93,10 +93,19 @@ const EmployeeTable = (props) => {
     }
 
     function descendingComparator(a, b, orderBy) {
-        if (b[orderBy] < a[orderBy]) {
+        const orderSplit = orderBy.split('.')
+        console.log(orderBy)
+        var aProp = a[orderBy]
+        var bProp = b[orderBy]
+        if (orderSplit.length > 1) {
+            aProp = a[orderSplit[0]][orderSplit[1]]
+            bProp = b[orderSplit[0]][orderSplit[1]]
+            console.log(aProp)
+        }
+        if (bProp < aProp) {
             return -1;
         }
-        if (b[orderBy] > a[orderBy]) {
+        if (bProp > aProp) {
             return 1;
         }
         return 0;
@@ -161,31 +170,31 @@ const EmployeeTable = (props) => {
             visible: true
         },
         {
-            id: 'name',
+            id: 'employee.name',
             numeric: false,
             label: 'Nombre',
             visible: true
         },
         {
-            id: 'name',
+            id: 'employee.surname',
             numeric: false,
             label: 'Apellido',
             visible: true
         },
         {
-            id: 'salary',
+            id: 'employee.salary',
             numeric: true,
             label: 'Salario',
             visible: true
         },
         {
-            id: 'available_date',
+            id: 'employee.availableDate',
             numeric: true,
             label: 'Fecha Disponible',
             visible: true
         },
         {
-            id: 'career',
+            id: 'employee.career',
             numeric: false,
             label: 'Carrera',
             visible: true
@@ -203,7 +212,7 @@ const EmployeeTable = (props) => {
 
     if (employeeType !== 'UNDER_SELECTION') {
         headCells.push({
-            id: 'seniority',
+            id: 'employee.seniority',
             numeric: true,
             label: 'Antiguedad',
             visible: true
