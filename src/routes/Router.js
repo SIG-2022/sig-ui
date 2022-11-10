@@ -38,7 +38,7 @@ const ThemeRoutes = [
             {path: "/users", element: <AdminTable/>},
             {path: "/project", element: <ProjectInfo/>},
             {path: "/load-data", element: <LoadData/>},
-            {path: "/employees", element: <EmployeeTable/>},
+            {path: "/employees", element: <EmployeeTable assigned={false}/>},
             {path: "/create-project", element: <CreateProject  style={{boxSizing:'unset'}}/>},
             {path: "/create-client", element: <CreateClient/>},
         ],

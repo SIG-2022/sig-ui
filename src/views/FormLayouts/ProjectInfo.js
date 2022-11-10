@@ -62,7 +62,7 @@ const FormLayouts = () => {
                 />
                 }
                 {selection === 'team-assign' &&
-                    <EmployeeTable employeeSelection project={state} />
+                    <EmployeeTable employeeSelection project={state} assigned={true} />
                 }
             </Grid>
         </Grid>

@@ -39,7 +39,7 @@ const EmployeeTable = (props) => {
                 Authorization: 'Bearer ' + jwt
             };
             const response = await API.get(
-                `/project/pm`,
+                `/project/pm?assigned=` + (props.assigned ? 'true' : 'false') ,
                 {headers}
             );
             if (props.project?.pm) {
@@ -59,7 +59,7 @@ const EmployeeTable = (props) => {
             Authorization: 'Bearer ' + jwt
         };
         const response = await API.get(
-            `/project/${type}`,
+            `/project/${type}?assigned=` + (props.assigned ? 'true' : 'false'),
             {headers}
         );
         if (props.project) {
@@ -94,13 +94,11 @@ const EmployeeTable = (props) => {
 
     function descendingComparator(a, b, orderBy) {
         const orderSplit = orderBy.split('.')
-        console.log(orderBy)
-        var aProp = a[orderBy]
-        var bProp = b[orderBy]
+        let aProp = a[orderBy];
+        let bProp = b[orderBy];
         if (orderSplit.length > 1) {
-            aProp = a[orderSplit[0]][orderSplit[1]]
-            bProp = b[orderSplit[0]][orderSplit[1]]
-            console.log(aProp)
+            aProp = a[orderSplit[0]] ? a[orderSplit[0]][orderSplit[1]] : undefined;
+            bProp = b[orderSplit[0]] ? b[orderSplit[0]][orderSplit[1]] : undefined;
         }
         if (bProp < aProp) {
             return -1;
@@ -215,6 +213,24 @@ const EmployeeTable = (props) => {
             id: 'employee.seniority',
             numeric: true,
             label: 'Antiguedad',
+            visible: true
+        })
+    }
+
+    if (employeeType === 'PM') {
+        headCells.splice(5, 0, {
+            id: 'speciality',
+            numeric: false,
+            label: 'Especialidad',
+            visible: true
+        })
+    }
+
+    if (employeeType !== 'UNDER_SELECTION') {
+        headCells.splice(4, 0, {
+            id: 'project.name',
+            numeric: false,
+            label: 'Proyecto Actual',
             visible: true
         })
     }
@@ -486,6 +502,25 @@ const EmployeeTable = (props) => {
                                                         </Box>
                                                     </Box>
                                                 </TableCell>
+                                                { (employeeType === 'DEV' || employeeType === 'PM') && <TableCell>
+                                                    <Box
+                                                    sx={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                }}
+                                                    >
+                                                    <Box>
+                                                    <Typography
+                                                    variant="h6"
+                                                    sx={{
+                                                    fontWeight: "600",
+                                                }}
+                                                    >
+                                                {employee.project ? employee.project.name : 'Ninguno'}
+                                                    </Typography>
+                                                    </Box>
+                                                    </Box>
+                                                    </TableCell>}
                                                 <TableCell align="right">
                                                     <Typography variant="h6">
                                                         <CurrencyFormat
@@ -496,6 +531,11 @@ const EmployeeTable = (props) => {
                                                         />
                                                     </Typography>
                                                 </TableCell>
+                                                {employeeType === 'PM' && <TableCell>
+                                                    <Typography color="textSecondary" variant="h6">
+                                                        {employee.speciality}
+                                                    </Typography>
+                                                </TableCell>}
                                                 {employeeType === 'PM' && <TableCell>
                                                     <Grid container spacing={2} marginTop={'2px'}>
                                                         {employee.features && employee.features.map((feature) => (

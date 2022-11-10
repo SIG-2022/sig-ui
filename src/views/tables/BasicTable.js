@@ -60,14 +60,14 @@ const BasicTable = () => {
                   <Button
                       variant={stateFilter || 'contained'}
                       onClick={handleAllProjectFilter}>
-                    Todos los projectos
+                    Todos los proyectos
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
                     variant={stateFilter === 'TEAM_ASSIGNMENT' && 'contained'}
                     onClick={handleTeamAssignmentProjectsFilter}>
-                    Equipo a Asignar
+                    Proyecto sin Equipo Asignado
                   </Button>
                 </Grid>
                 <Grid item>
