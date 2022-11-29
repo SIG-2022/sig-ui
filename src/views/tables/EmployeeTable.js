@@ -34,23 +34,8 @@ const EmployeeTable = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getPMs() {
-            const headers = {
-                Authorization: 'Bearer ' + jwt
-            };
-            const response = await API.get(
-                `/project/pm?assigned=` + (props.assigned ? 'true' : 'false') ,
-                {headers}
-            );
-            if (props.project?.pm) {
-                response.data?.unshift(props.project.pm);
-            }
-            await setEmployees(response.data);
-        }
-
         if (!employees) {
-            getPMs();
-
+            fetchEmployees('pm');
         }
     }, [employees, jwt])
 
@@ -63,12 +48,15 @@ const EmployeeTable = (props) => {
             {headers}
         );
         if (props.project) {
-            if (type === 'pm' && props.project.pm)
-                response.data?.unshift(props.project.pm);
-            if (type === 'dev' && props.project.devs)
-                props.project.devs.forEach((dev) => response.data?.unshift(dev))
-            if (type === 'under-selection' && props.project.underSelection)
-                props.project.underSelection.forEach((sel) => response.data?.unshift(sel))
+            if (type === 'pm' && props.project.pm) {
+                // response.data?.unshift(props.project.pm);
+            }
+            if (type === 'dev' && props.project.devs) {
+                // props.project.devs.forEach((dev) => response.data?.unshift(dev))
+            }
+            if (type === 'under-selection' && props.project.underSelection) {
+                // props.project.underSelection.forEach((sel) => response.data?.unshift(sel))
+            }
         }
         await setEmployees(response.data);
     }
